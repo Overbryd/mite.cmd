@@ -1,0 +1,5 @@
+*.gem
+pkg
+doc
+coverage
+.DS_Store

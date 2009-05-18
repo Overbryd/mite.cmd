@@ -1,0 +1,209 @@
+#!/usr/bin/env ruby
+
+$:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
+
+require 'mighty_mite'
+
+def parse_minutes(string)
+  if string =~ /^\d+:\d{2}(\+?)$/
+    string.split(':').first.to_i*60 + string.sub(/\+$/, '').split(':').last.to_i
+  else
+    nil
+  end
+end
+
+# this is by far _the_ worst part of the code. sorry. I'll refactor it into something meaningful as soon there is the time for it.
+# just a hint for myself:
+# return nil means do not use this attribute
+# return string means create an attribute with this name
+# return integer means this is the id of this attribute
+def check_for(attribute)
+  case attribute
+    when :customer_id
+      if customer = @client.customers(:name => ARGV[0]).first
+        ARGV[0] = nil
+        return customer.id
+      elsif !parse_minutes(ARGV[1]) && @client.projects(:name => ARGV[0]).first.nil?
+        ARGV[0] = nil
+        return ARGV[0]
+      else
+        return nil
+      end
+    
+    when :project_id
+      ARGV[0..1].each_with_index do |argument, index|
+        next unless argument
+        break if parse_minutes(argument)
+        
+        if project = @client.projects(:name => argument).first
+          ARGV[index] = nil
+          return project.id
+        else
+          ARGV[index] = nil
+          return argument
+        end
+      end
+      return nil
+    
+    when :service_id
+      ARGV[0..2].each_with_index do |argument, index|
+        next unless argument
+        break if parse_minutes(argument)
+        
+        if service = @client.services(:name => argument).first
+          ARGV[index] = nil
+          return service.id
+        else
+          ARGV[index] = nil
+          return argument
+        end
+      end
+      return nil
+    
+    when :start_tracker
+      ARGV[0..3].each_with_index do |argument, index|
+        next unless argument
+        
+        if minutes = parse_minutes(argument)
+          return true if minutes =~ /\+$/
+        else
+          return false
+        end
+      end
+      return true
+      
+    when :minutes
+      ARGV[0..3].each_with_index do |argument, index|
+        next unless argument
+        
+        if minutes = parse_minutes(argument)
+          ARGV[index] = nil
+          return minutes
+        end
+      end
+      return nil
+      
+    when :note
+      ARGV[0..4].each_with_index do |argument, index|
+        next unless argument
+        
+        if argument
+          ARGV[index] = nil
+          return argument
+        end
+      end
+      return nil
+     
+  end
+end
+
+begin
+  @client = MightyMite::Client.new unless ARGV[0] =~ /(help|configure|flush-cache)/
+  case ARGV.size
+    when 0
+      if time_entry = @client.current_time_entry
+        p time_entry
+      else
+        flirts = [
+          'I like your hairstyle.', 'What a nice console you have.', 'My favorite color is red on black, monospaced.',
+          "What a lovely operation system this #{`uname`} is.", 'What about dinner tonight?', 'Your keystrokes are tingling.'
+        ]
+        srand(Time.now.to_i.to_s.split('').sort_by(&:rand).join('').to_i)
+        raise MightyMite::Exception.new(flirts[rand(flirts.size)])
+      end
+    when 1..5
+      case ARGV[0]
+        when 'start'
+          if time_entry = (@client.current_time_entry || @client.time_entries(:at => :today).last)
+            time_entry.start_tracker
+            p time_entry
+          else
+            raise MightyMite::Exception.new('Couldn\'t start timer, because there is no time entry for today!')
+          end
+          
+        when /^(stop|pause)$/
+          time_entry = @client.current_time_entry
+          if time_entry
+            @client.current_time_entry.stop_tracker
+            p @client.time_entries(:id => time_entry.id).first
+          end
+          
+        when /^(today|yesterday|this_week|last_week|this_month|last_month)$/
+          @client.time_entries(:at => $1.to_sym).each do |time_entry|
+            p time_entry
+          end
+          total_revenue = "=> %.2f $-)" % (@client.time_entries(:at => $1.to_sym).sum(&:revenue) / 100.0)
+          puts total_revenue.colorize(:lightgreen)
+          
+        when 'open'
+          exec("open #{Mite.account_url}/reports")
+          
+        when 'help'
+          exec("open http://github.com/Overbryd/mighty-mite")
+
+        when 'configure'
+          raise MightyMite::Exception.new('Usage: mite configure "Your Account Name" "Your API key"') if ARGV[1].blank? || ARGV[2].blank?
+          File.open(File.expand_path('~/.mite.yml'), 'w') do |f|
+            YAML.dump({:account => ARGV[1], :apikey => ARGV[2]}, f)
+          end
+          bash_login = File.expand_path('~/.bash_login')
+          cmd = "\n\ncomplete -C \"mite auto-complete\" mite"
+          if File.exist?(bash_login) && !File.read(bash_login).include?(cmd)
+            File.open(bash_login, 'a') {|f| f.puts cmd}
+            puts "Auto-complete configuration has been appended to ~/.bash_login."
+          end
+          puts "Your wish has been fulfilled."
+        
+        when 'flush-cache'
+          completion_cache = File.expand_path('~/.mite.cache')
+          File.delete(completion_cache) if File.exist?(completion_cache)
+          puts "Your cache has been emptied."
+          
+        when 'auto-complete'
+          MightyMite::Autocomplete.calling_script = __FILE__
+          if File.exist?(File.expand_path('~/.mite.cache'))
+            MightyMite::Autocomplete.completion_table = Marshal.load(File.read(File.expand_path('~/.mite.cache')))
+          else
+            MightyMite::Autocomplete.completion_table = {
+              0 => (@client.projects.map(&:name) + @client.customers.map(&:name)),
+              1 => @client.services.map(&:name),
+              2 => ['0:05', '0:05+', '0:15', '0:15+', '0:30', '0:30+', '1:00', '1:00+'].map(&:quote),
+              3 => @client.time_entries.map(&:note).compact
+            }
+            File.open(File.expand_path('~/.mite.cache'), 'w') do |f|
+              Marshal.dump(MightyMite::Autocomplete.completion_table, f)
+            end
+          end
+          MightyMite::Autocomplete.suggestions.each { |s| puts s.quote_if_spaced }
+          
+        else # look for dynamic matches, *yay* spaghetti code
+          attributes = {}
+          attributes[:customer_id] = check_for :customer_id
+          attributes[:project_id] = check_for :project_id
+          attributes[:service_id] = check_for :service_id
+          start_tracker = check_for :start_tracker
+          attributes[:minutes] = check_for :minutes
+          attributes[:note] = check_for :note
+          if attributes[:customer_id].is_a?(String)
+            attributes[:customer_id] = @client.create_customer(:name => attributes[:customer_id]).id
+          end
+          if attributes[:project_id].is_a?(String)
+            attributes[:project_id] = @client.create_project(:name => attributes[:project_id], :customer_id => attributes[:customer_id]).id
+          end
+          if attributes[:service_id].is_a?(String)
+            attributes[:service_id] = @client.create_service(:name => attributes[:service_id]).id
+          end
+          time_entry = @client.create_time_entry(attributes)
+          time_entry.start_tracker if start_tracker
+          p time_entry
+          
+      end
+      
+    else
+      raise MightyMite::Exception.new('Way too many arguments dude. Don\'t forget to put spaced arguments inside `"´ quotes.')
+      
+  end
+rescue MightyMite::Exception => e
+  puts "#{"#{e.message} *chuckles*".colorize(:color => :red, :background => :black)} Type `mite help` to get help."
+  exit(1)
+end

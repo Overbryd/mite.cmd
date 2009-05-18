@@ -1,0 +1,7 @@
+* Make it soft around the edges
+* Refactor bin/mite to a tested class
+* Is the client class necessary?
+* Improve auto-completion caching
+* Some more testing
+* Waiting for some feedback
+* Implementing feedback
