@@ -37,7 +37,7 @@ It will then generate a yml file in ~/.mite.yml with your account information.
 
 The configure command also tries to install the bash auto completion hook into the following files: @~/.bash_completion@, @~/.bash_login@, @~/.bashrc@.
 
-If your system doesn't support one of the file above, install the hook by yourself.
+If your system doesn't support one of the files above, install the hook by yourself.
 In order to work as expected it needs bash to be configured for auto completion.
 This is actually quite easy, just append this line to your bash config file.
 
@@ -49,13 +49,13 @@ You could use this command as an example (replace .bash_login with your bash con
 
 h3. Controlling time entries:
 
-    $ mite "Project Name" [Service Name] [Start Time h:mm] [Note]
+    $ mite "project name" [service name] [start time h:mm] [note]
     
-    $ mite "Project Name" "Service Name" [Note]
+    $ mite "project name" "service name" [note]
     
-    $ mite "Project Name" [Start Time h:mm] [Note]
+    $ mite "project name" [start time h:mm] [note]
     
-    $ mite [Start Time h:mm] [Note]
+    $ mite [start time h:mm] [note]
 
 h4. Examples:
 
@@ -87,7 +87,7 @@ Try this:
 
       $ mite [tab]
 
-It will try to auto-complete your projects or customers.
+It will try to auto-complete your projects.
       
       $ mite Project1 [tab]
 
