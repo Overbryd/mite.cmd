@@ -21,13 +21,13 @@ module MightyMite
       end
     
       def current_word
-        return '' if argument_string =~ /\s$/ && bash_line.length == cursor_position
+        return nil if argument_string =~ /\s$/ && bash_line.length == cursor_position
         shellwords(partial_argument_string).last
       end
     
       def current_argument_index
         return args.size if argument_string =~ /\s$/ && bash_line.length == cursor_position
-        args.index(current_word) || args.size
+        args.index(current_word) || 0
       end
     
       def cursor_position

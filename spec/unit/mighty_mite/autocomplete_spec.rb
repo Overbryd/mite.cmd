@@ -53,10 +53,10 @@ describe MightyMite::Autocomplete do
       MightyMite::Autocomplete.current_word.should == 'arg '
     end
     
-    it "should return an empty string if the last word has been completed" do
+    it "should return nil if the last word has been completed" do
       ENV['COMP_LINE'] = "./test_command arg0 "
       ENV['COMP_POINT'] = '20'
-      MightyMite::Autocomplete.current_word.should == ''      
+      MightyMite::Autocomplete.current_word.should == nil
     end
   end
   

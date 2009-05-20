@@ -16,22 +16,28 @@ _|    _|    _|  _|      _|_|    _|_|_|
 </pre>
 A simple command line interface for basic mite tasks.
 
-* @mite@ is an ingeniously sleek time tracking tool: http://mite.yo.lk
+* @mite.@ is an ingeniously sleek time tracking tool: http://mite.yo.lk
 * @mighty-mite@ is a command line interface for it: http://github.com/Overbryd/mighty-mite
+  It provides a system wide command called @mite@.
 
 h3. Installation instructions:
 
-    $ gem install mighty-mite
+    $ gem install overbryd-mighty-mite
+    
+I assume github is in your gem sources. You may need @active_support@ and @active_resource@ too.
 
 h3. After installation instructions:
 
-You'll need to configure the @client prior using it.
+You'll need to configure the client prior using it.
 To do this, you can just hammer into your console:
 
     $ mite configure "Your Account Name" "Your API Key"
 
 It will then generate a yml file in ~/.mite.yml with your account information.
 
+The configure command also tries to install the bash auto completion hook into the following files: @~/.bash_completion@, @~/.bash_login@, @~/.bashrc@.
+
+If your system doesn't support one of the file above, install the hook by yourself.
 In order to work as expected it needs bash to be configured for auto completion.
 This is actually quite easy, just append this line to your bash config file.
 
@@ -41,11 +47,15 @@ You could use this command as an example (replace .bash_login with your bash con
 
     $ echo "complete -C \"mite auto-complete\" mite" >> ~/.bash_login
 
-(Note: On Mac OSX `mite configure` will append these lines automagically. Yummy.)
-
 h3. Controlling time entries:
 
-    $ mite [Customer Name] "Project Name" [Service Name] [Start Time h:mm] [Note for this]
+    $ mite "Project Name" [Service Name] [Start Time h:mm] [Note]
+    
+    $ mite "Project Name" "Service Name" [Note]
+    
+    $ mite "Project Name" [Start Time h:mm] [Note]
+    
+    $ mite [Start Time h:mm] [Note]
 
 h4. Examples:
 
@@ -63,17 +73,10 @@ The timer will not start.
 
 This will set a time entry that starts at 0:00 for the Project HugEveryone, doing the service "Love" with a note "Everybody should be like me...".
 If there is a running timer, it will be stopped before.
-    
-    $ mite God "Praying all day long" "Repeating Prayers"
-
-This will set a time entry that starts at 0:00 for the Customer God with the Project "Praying all day long" doing the service "Repeating Prayers".
 
 h4. Note:
 
 If a project or a service doesn't exist it will be created.
-So if you want your new project belong to a customer,
-you should prepend the name of the customer as the first argument.
-If a customer doesn't exist, it will be created too.
 
 h3. Amazing auto-completion:
 
@@ -102,9 +105,9 @@ h4. Amazingly fast auto-completion:
 
 The auto-completion feature creates a cache in ~/.mite.cache, if you want to rebuild this cache just hit:
     
-		$ mite flush-cache
+		$ mite rebuild-cache
 
-h4. Note: The first completion run with an empty cache might be a bit slow.
+h4. Note: The first run without the cache might be a bit slow.
 
 h3. Controlling timers:
 
@@ -125,7 +128,7 @@ This will generate a report of today's activity, summarizing your earnings at th
     $ mite yesterday
 
 This will generate a report of yesterday's activity, summarizing your earnings at the bottom.
-Even works using @this_week@, @last_week@, @this_month@, @last_month@ as argument.
+Also works using @this_week@, @last_week@, @this_month@, @last_month@ as argument.
 
 h3. More simple stuff:
 
@@ -135,4 +138,4 @@ If there is a running timer, it will output it. Otherwise you should better not 
 
     $ mite open
 
-(Mac OSX only) Opens your mite account in a new browser window.
+Opens your mite account in a new browser window (Max OSX only) or prints the url to your account.

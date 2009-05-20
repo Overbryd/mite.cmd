@@ -1,0 +1,11 @@
+= mite-rb Changelog
+
+== Version 0.0.2
+
+* Added tracker-resource and methods on time_entry
+* Fixed tiny datetimebug
+* Dependency of activeresource 2.3.2 and activesupport 2.3.2
+ 
+== Version 0.0.1
+
+* Initial Version

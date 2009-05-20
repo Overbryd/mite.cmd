@@ -1,0 +1,70 @@
+The official ruby library for interacting with the "RESTful API":http://mite.yo.lk/en/api of "mite":http://mite.yo.lk/en, a sleek time tracking webapp.
+
+h3. Install
+
+As a ruby gem from github:
+   
+   sudo gem install yolk-mite-rb -s http://gems.github.com
+
+mite-rb requires activeresource and activesupport gems in a current version (2.3.2) to be installed.
+
+h3. Documentation
+
+The first thing you need to set is the account name.  This is the same as the web address (subdomain) for your account. For example if you use mite from the domain demo.mite.yo.lk:
+
+   Mite.account = 'demo'
+
+Then, you should set the authentication. You can either use your login credentials (email and password) with HTTP Basic Authentication or your mite.api key. In both cases you must enable the mite.api in your user settings.
+
+With basic authentication:
+
+   Mite.authenticate('rick@techno-weenie.net', 'spacemonkey')
+
+or, use your api key:
+
+   Mite.key = 'cdfeasdaabcdefgssaeabcdefg'
+
+You should read the complete mite.api documentation at http://mite.yo.lk/en/api
+
+h4. Project
+
+Find all active projects of the current account
+
+   Mite::Project.all
+   
+Find single project by ID
+
+   Mite::Project.find(1209)
+ 
+Creating a Project
+
+   project = Mite::Project.new(:name => 'Playing with the mite.api')
+   project.save
+
+or
+ 
+   project = Mite::Project.create(:name => 'Playing with the mite.api') 
+ 
+Updating a Project
+
+   project = Mite::Project.find(1209)
+   project.name = "mite.api"
+   project.customer = Mite::Customer.find(384)
+   project.save
+ 
+Get the customer of an project
+
+   project = Mite::Project.find(1209)
+   project.customer
+ 
+Deleting a project
+
+   project = Mite::Project.find(1209)
+   project.destroy
+ 
+Restore a destroyed project
+(will only work for aprox. 12 hours after the object was destroyed)
+
+   project = Mite::Project.undo_destroy(1209)
+
+
