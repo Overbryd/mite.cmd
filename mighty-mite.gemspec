@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{mighty-mite}
-  s.version = "0.0.2"
+  s.version = "0.0.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Lukas Rieder"]
-  s.date = %q{2009-05-20}
+  s.date = %q{2009-05-21}
   s.default_executable = %q{mite}
   s.description = %q{A simple command line interface for mite, a sleek time tracking webapp.}
   s.email = %q{l.rieder@gmail.com}
@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
      "lib/mighty_mite/autocomplete.rb",
      "lib/mite_ext.rb",
      "lib/string_ext.rb",
+     "mighty-mite.gemspec",
      "spec/spec_helper.rb",
      "spec/unit/mighty_mite/application_spec.rb",
      "spec/unit/mighty_mite/autocomplete_spec.rb",

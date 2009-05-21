@@ -133,10 +133,14 @@ describe MightyMite::Application, 'run' do
     before(:each) do
       @application = MightyMite::Application.new ['auto-complete']
       @application.stub!(:tell)
+      
+      @autocomplete = stub('autocomplete', :completion_table => {}, :completion_table= => nil, :suggestions => [])
+      MightyMite::Autocomplete.stub!(:new).and_return @autocomplete
     end
     
-    it "should set the MightyMite::Autocomplete.calling_script" do
-      MightyMite::Autocomplete.should_receive(:calling_script=)
+    it "should create a new instance of MightyMite::Autocomplete setting the calling_script" do
+      MightyMite.stub!(:calling_script).and_return '/usr/local/bin/mite'
+      MightyMite::Autocomplete.should_receive(:new).with '/usr/local/bin/mite'
       @application.run
     end
 
@@ -144,8 +148,8 @@ describe MightyMite::Application, 'run' do
       File.stub!(:exist?).and_return true
       File.should_receive(:read).and_return :marshal_data
       Marshal.should_receive(:load).and_return :cached_completion_table
-      MightyMite::Autocomplete.should_receive(:completion_table=).with :cached_completion_table
-      MightyMite::Autocomplete.stub!(:suggestions).and_return []
+      @autocomplete.should_receive(:completion_table=).with :cached_completion_table
+      @autocomplete.stub!(:suggestions).and_return []
       @application.run
     end
     
@@ -153,13 +157,13 @@ describe MightyMite::Application, 'run' do
       File.stub!(:exist?).and_return true
       File.stub!(:read)
       Marshal.stub!(:load)
-      MightyMite::Autocomplete.stub!(:suggestions).and_return ['Heinz', 'Peter']
+      @autocomplete.stub!(:suggestions).and_return ['Heinz', 'Peter']
       @application.should_receive(:tell).with(/Heinz|Peter/).exactly(2).times
       @application.run
     end
 
     shared_examples_for 'an uncached completion table' do
-      before(:each) do        
+      before(:each) do
         File.stub!(:exist?).and_return false
         
         Mite::Project.stub!(:all).and_return [stub('project', :name => 'Demo Project')]
@@ -176,8 +180,7 @@ describe MightyMite::Application, 'run' do
 
       it "should create a new completion table" do
         File.stub!(:open)
-        @application.run
-        MightyMite::Autocomplete.completion_table.should == @completion_table
+        @application.send(:rebuild_completion_table).should == @completion_table
       end
 
       it "should save the new completion table to ~/.mite.cache" do
@@ -185,13 +188,13 @@ describe MightyMite::Application, 'run' do
         File.should_receive(:open).with('/tmp/.mite.cache', 'w').and_yield :file_handle
         Marshal.should_receive(:dump).with(@completion_table, :file_handle)
         @application.run
-      end      
+      end
     end
     
     describe 'and the completion table is not cached' do
       it_should_behave_like 'an uncached completion table'
     end
-        
+    
   end
 
   describe 'the rebuild-cache argument' do

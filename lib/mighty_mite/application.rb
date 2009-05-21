@@ -24,13 +24,13 @@ module MightyMite
         tell("Could't set up bash completion. I'm terribly frustrated. Maybe 'mite help' helps out.") unless try_to_setup_bash_completion
         
       elsif @arguments.first == 'auto-complete'
-        MightyMite::Autocomplete.calling_script = MightyMite.calling_script
-        MightyMite::Autocomplete.completion_table = if File.exist?(cache_file)
+        autocomplete = MightyMite::Autocomplete.new(MightyMite.calling_script)
+        autocomplete.completion_table = if File.exist?(cache_file)
           Marshal.load File.read(cache_file)
         else
           rebuild_completion_table
         end
-        MightyMite::Autocomplete.suggestions.each { |s| tell s }
+        autocomplete.suggestions.each { |s| tell s }
         
       elsif @arguments.first == 'rebuild-cache'
         File.delete(cache_file) if File.exist? cache_file
