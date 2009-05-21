@@ -42,7 +42,7 @@ module MightyMite
     end
   
     def suggestions
-      completion_table[current_argument_index].select {|s| s =~ /^#{current_word}/}
+      completion_table[current_argument_index] ? completion_table[current_argument_index].select {|s| s =~ /^#{current_word}/} : []
     end
   end
 end

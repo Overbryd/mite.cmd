@@ -89,5 +89,12 @@ describe MightyMite::Autocomplete do
     it "should return the suggested values from the completion table at the current argument index" do
       @autocomplete.suggestions.should == ['Holy', 'Holy Moly', 'Holy Grail']
     end
+    
+    it "should return an empty array if the current argument index is out of range" do
+      @autocomplete.stub!(:current_argument_index).and_return 50
+      @autocomplete.suggestions.should == []
+    end
+    
   end
+  
 end

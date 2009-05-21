@@ -30,7 +30,7 @@ module MightyMite
         else
           rebuild_completion_table
         end
-        autocomplete.suggestions.each { |s| tell s }
+        autocomplete.suggestions.map(&:quote_if_spaced).each { |s| tell s }
         
       elsif @arguments.first == 'rebuild-cache'
         File.delete(cache_file) if File.exist? cache_file

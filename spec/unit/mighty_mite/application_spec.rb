@@ -162,6 +162,15 @@ describe MightyMite::Application, 'run' do
       @application.should_receive(:tell).with(/Heinz|Peter/).exactly(2).times
       @application.run
     end
+    
+    it "should wrap suggestions inside quotes if they are spaced" do
+      File.stub!(:exist?).and_return true
+      File.stub!(:read)
+      Marshal.stub!(:load)
+      @autocomplete.stub!(:suggestions).and_return ['I need quotes', 'MeNot']
+      @application.should_receive(:tell).with(/"I need quotes"|MeNot/).exactly(2).times
+      @application.run
+    end
 
     shared_examples_for 'an uncached completion table' do
       before(:each) do
@@ -170,6 +179,9 @@ describe MightyMite::Application, 'run' do
         Mite::Project.stub!(:all).and_return [stub('project', :name => 'Demo Project')]
         Mite::Service.stub!(:all).and_return [stub('service', :name => 'late night programming')]
         Mite::TimeEntry.stub!(:all).and_return [stub('time entry', :note => 'shit 02:13 is really late')]
+        
+        File.stub!(:open)
+        Marshal.stub!(:dump)
         
         @completion_table = {
           0 => ['Demo Project'],
@@ -180,7 +192,6 @@ describe MightyMite::Application, 'run' do
       end
 
       it "should create a new completion table" do
-        File.stub!(:open)
         @application.send(:rebuild_completion_table).should == @completion_table
       end
 
