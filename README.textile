@@ -49,15 +49,15 @@ You could use this command as an example (replace .bash_login with your bash con
 
 h3. Create new time entries with ease:
 
-    $ mite "project name" [service name] [start time h:mm] [note]
+    $ mite "project name" [service_name] [start_time] [note]
     
     $ mite "project name" "service name" [note]
     
-    $ mite "project name" [start time h:mm] [note]
+    $ mite "project name" [start_time] [note]
     
-    $ mite [start time h:mm] [note]
+    $ mite [start_time] [note]
 
-h4. The magic of the moment err... start time:
+h4. The magic of the moment err... start_time:
 
 Append a @+@ to the start time and it will start the tracker.
 
@@ -154,3 +154,13 @@ Just create a new time entry and start tracking it.
     $ mite open
 
 Opens your mite account in a new browser window (Max OSX only) or prints the url to your account.
+
+h3. Feature Request? Problems? Found a bug? Your girlfriend broke up with you?
+
+Your problems are no longer "problems"! They are called issues now, and github has the solution.
+
+If you want to tell me an idea, I'll happily take care of them in the issues tracker: http://github.com/Overbryd/mighty-mite/issues
+
+|\3_. All time Highscore of people who were involved |
+| who? |\2. what? |
+| yolk | 10 issues | found a lot of bugs, did some real use testing. Really cool, thank you! |
