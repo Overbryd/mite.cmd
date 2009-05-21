@@ -38,9 +38,9 @@ module MightyMite
         tell 'The rebuilding of the cache has been done, Master. Your wish is my command.'
         
       elsif ['today', 'yesterday', 'this_week', 'last_week', 'this_month', 'last_month'].include? @arguments.first
-        total_revenue = Mite::TimeEntry.all(:params => {:at => @arguments.first}).each do |time_entry|
+        total_revenue = Mite::TimeEntry.all(:params => {:at => @arguments.first, :user_id => 'current'}).each do |time_entry|
           tell time_entry.inspect
-        end.sum(&:revenue)
+        end.map(&:revenue).compact.sum
         tell ("%.2f $" % total_revenue).colorize(:lightgreen)
         
       elsif ['stop', 'pause'].include? @arguments.first

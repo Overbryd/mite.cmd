@@ -227,17 +227,25 @@ describe MightyMite::Application, 'run' do
         @application = MightyMite::Application.new [@argument]
         @application.stub!(:tell)
 
-        @time_entry = stub('time_entry', :inspect => 'hy', :revenue => 1200)
-        Mite::TimeEntry.stub!(:all).and_return [@time_entry, @time_entry]
+        @time_entry = stub('time_entry', :inspect => 'I am a time entry.', :revenue => 1200)
+        @time_entry_with_nil_revenue = stub('time_entry_without_revenue', :inspect => 'I am a time entry.', :revenue => nil)
+        @time_entry_with_nil_revenue.stub!(:revenue).and_return nil
+        Mite::TimeEntry.stub!(:all).and_return [@time_entry, @time_entry, @time_entry_with_nil_revenue]
       end
 
-      it "should tell an inspection of each time entry from today" do
-        Mite::TimeEntry.should_receive(:all).with(:params => {:at => @argument})
-        @time_entry.should_receive(:inspect).exactly(2).times.and_return 'I am a time entry.'
-        @application.should_receive(:tell).with('I am a time entry.').exactly(2).times
+      it "should tell an inspection of each time entry" do
+        Mite::TimeEntry.should_receive(:all).with(:params => hash_including(:at => @argument))
+        @time_entry.should_receive(:inspect).exactly(2).times
+        @time_entry_with_nil_revenue.should_receive(:inspect).at_least(:once)
+        @application.should_receive(:tell).with('I am a time entry.').exactly(3).times
         @application.run
       end
-
+      
+      it "should only output the time entries of the current user" do
+        Mite::TimeEntry.should_receive(:all).with(:params => hash_including(:user_id => 'current'))
+        @application.run
+      end
+      
       it "should tell #{@argument}'s revenue, nicely formatted and colorized in lightgreen" do
         @application.should_receive(:tell).with("\e[1;32;49m2400.00 $\e[0m").at_least(:once)
         @application.run
