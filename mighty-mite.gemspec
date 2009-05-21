@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{mighty-mite}
-  s.version = "0.0.5"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Lukas Rieder"]
-  s.date = %q{2009-05-21}
+  s.date = %q{2009-05-22}
   s.default_executable = %q{mite}
   s.description = %q{A simple command line interface for mite, a sleek time tracking webapp.}
   s.email = %q{l.rieder@gmail.com}
