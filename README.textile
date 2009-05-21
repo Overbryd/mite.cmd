@@ -163,4 +163,4 @@ If you want to tell me an idea, I'll happily take care of them in the issues tra
 
 |\3. **All time Highscore of people who were involved** |
 | who? |\2. what? |
-| yolk | 10 issues | found a lot of bugs, did some real use testing. Really cool, thank you! |
+| Sebastian Munz (yolk) | 10 issues | found a lot of bugs, did some real use testing. Really cool, thank you! |
