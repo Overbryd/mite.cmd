@@ -49,7 +49,7 @@ module MightyMite
         end
         
       elsif @arguments.first == 'start'
-        if time_entry = Mite::TimeEntry.last(:params => {:at => 'today'})
+        if time_entry = Mite::TimeEntry.first(:params => {:at => 'today'})
           time_entry.start_tracker
           tell time_entry.inspect
         else

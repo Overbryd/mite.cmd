@@ -293,11 +293,12 @@ describe MightyMite::Application, 'run' do
       @application.stub!(:tell)
       
       @time_entry = stub('time_entry', :start_tracker => nil, :inspect => 'I was started.')
-      Mite::TimeEntry.stub!(:last).and_return @time_entry
+      Mite::TimeEntry.stub!(:first).and_return @time_entry
     end
   
     it "should call start_tracker on the last time entry of today" do
-      Mite::TimeEntry.should_receive(:last).with(:params => {:at => 'today'})
+      # last time entry by time = first by list order
+      Mite::TimeEntry.should_receive(:first).with(:params => {:at => 'today'})
       @time_entry.should_receive(:start_tracker)
       @application.run
     end
@@ -308,7 +309,7 @@ describe MightyMite::Application, 'run' do
     end
     
     it "should tell something nice if there is no time entry to start" do
-      Mite::TimeEntry.stub!(:last).and_return nil
+      Mite::TimeEntry.stub!(:first).and_return nil
       @application.should_receive(:tell).with "Oh my dear! I tried hard, but I could'nt find any time entry for today."
       @application.run
     end
