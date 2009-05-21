@@ -35,7 +35,7 @@ To do this, you can just hammer into your console:
 
 It will then generate a yml file in ~/.mite.yml with your account information.
 
-The configure command also tries to install the bash auto completion hook into the following files: @~/.bash_completion@, @~/.bash_login@, @~/.bashrc@.
+The configure command also tries to install the bash auto completion hook into the following files: @~/.bash_completion@, @~/.bash_profile@, @~/.bash_login@, @~/.bashrc@.
 
 If your system doesn't support one of the files above, install the hook by yourself.
 In order to work as expected it needs bash to be configured for auto completion.

@@ -147,7 +147,7 @@ module MightyMite
     def try_to_setup_bash_completion
       bash_code = "\n\n#{MightyMite::BASH_COMPLETION}"
       
-      ['~/.bash_completion', '~/.bash_login', '~/.bashrc'].each do |file|
+      ['~/.bash_completion', '~/.bash_profile', '~/.bash_login', '~/.bashrc'].each do |file|
         bash_config_file = File.expand_path file
         next unless File.exist?(bash_config_file)
         unless File.read(bash_config_file) =~ /#{bash_code}/

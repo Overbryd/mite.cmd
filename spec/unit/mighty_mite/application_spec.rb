@@ -92,10 +92,12 @@ describe MightyMite::Application, 'run' do
         @application.send(:try_to_setup_bash_completion).should == true
       end
       
-      it "should try '~/.bash_completion', '~/.bash_login', '~/.bashrc'" do
+      it "should try '~/.bash_completion', '~/.bash_profile', '~/.bash_login', '~/.bashrc'" do
+        files = ['~/.bash_completion', '~/.bash_profile', '~/.bash_login', '~/.bashrc']
+        files_regexp = files.map {|f| Regexp.escape(f)}.join('|')
         File.should_receive(:expand_path).with(
-          Regexp.new(['~\/\.bash_completion', '~\/\.bash_login', '~\/\.bashrc'].join('|'))
-        ).exactly(3).times
+          Regexp.new(files_regexp)
+        ).exactly(files.size).times
         
         File.stub!(:exist?).and_return false
         @application.send :try_to_setup_bash_completion
