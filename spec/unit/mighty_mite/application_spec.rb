@@ -345,21 +345,44 @@ describe MightyMite::Application, 'dynamic time entry creation' do
     application.run
   end
   
+  describe 'the + argument' do
+    it "should create and start a new time entry" do
+      time_entry = stub('time_entry')
+      Mite::TimeEntry.should_receive(:create).and_return time_entry
+      time_entry.should_receive :start_tracker
+      new_application(['+']).run
+    end
+  end
+  
   describe 'with a time given' do
     it "should parse minutes as integer out of h:mm(+)?" do
-      new_application.send(:parse_minutes, '1:12').should == 72
+      new_application.send(:parse_minutes, '1:18').should == 78
       new_application.send(:parse_minutes, '72:00').should == 4320
       new_application.send(:parse_minutes, '0:01+').should == 1
     end
     
+    it "should parse minutes as integer out of h(:)?(+)?" do
+      new_application.send(:parse_minutes, '3').should == 180
+      new_application.send(:parse_minutes, '2:').should == 120
+      new_application.send(:parse_minutes, '1.5').should == 90
+      new_application.send(:parse_minutes, '2.5+').should == 150
+      new_application.send(:parse_minutes, '5:').should == 300
+      new_application.send(:parse_minutes, '1:+').should == 60
+      new_application.send(:parse_minutes, '0.5:').should == 30
+    end
+    
+    it "should parse minutes as nil out of +" do
+      new_application.send(:parse_minutes, '+').should == nil
+    end
+    
     it "should add the parsed minutes to the attributes" do
       Mite::TimeEntry.should_receive(:create).with hash_including(:minutes => 78)
-      new_application(['1', '2', '1:18', '4']).run
+      new_application(['ARG1', 'ARG2', '1:18', 'ARG4']).run
     end
     
     it "should start the tracker for the time entry if the attributes is suffixed with '+'" do
       @time_entry.should_receive(:start_tracker)
-      new_application(['1', '2', '1:18+', '4']).run
+      new_application(['ARG1', 'ARG2', '1:18+', 'ARG4']).run
     end
   end
   
@@ -446,19 +469,19 @@ describe MightyMite::Application, 'dynamic time entry creation' do
     
     it "should add the note to the attributes if the fourth argument is given" do
       Mite::TimeEntry.should_receive(:create).with hash_including(:note => 'Reminder')
-      new_application(['1', '2', '3', 'Reminder']).run
+      new_application(['ARG1', 'ARG2', '3+', 'Reminder']).run
     end
     
     it "should add the note to the attributes if it is third argument and no time is given" do
       Mite::TimeEntry.should_receive(:create).with hash_including(:note => 'bla bla')
-      new_application(['1', '2', 'bla bla']).run
+      new_application(['ARG1', 'ARG2', 'bla bla']).run
     end
     
     it "should add the note to the attributes if a time argument is followed by a note" do
       Mite::TimeEntry.should_receive(:create).with hash_including(:note => 'gnarr gnarr')
       new_application(['1:02', 'gnarr gnarr']).run
       Mite::TimeEntry.should_receive(:create).with hash_including(:note => 'glubb glubb')
-      new_application(['1', '3:04', 'glubb glubb']).run
+      new_application(['ARG1', '3:04', 'glubb glubb']).run
     end
   end
 end

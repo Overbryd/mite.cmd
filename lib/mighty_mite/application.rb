@@ -1,6 +1,6 @@
 module MightyMite
   class Application
-    TIME_FORMAT = /^\d+:\d+(\+)?$/
+    TIME_FORMAT = /^(\d+(\.\d+)?:?\+?)|(\d+:\d+\+?)|\+$/
     FLIRTS = [
       'I like your hairstyle.', 'What a nice console you have.', 'My favorite color is red on black, monospaced.',
       "What a lovely operation system this #{`uname`} is.", 'What about dinner tonight?', 'Your keystrokes are tingling.'
@@ -59,8 +59,8 @@ module MightyMite
       elsif (1..4).include?(@arguments.size)
         attributes = {}
         if time_string = @arguments.select { |a| a =~ TIME_FORMAT }.first
-          attributes[:minutes] = parse_minutes(time_string)
-          start_tracker = time_string =~ /\+$/
+          attributes[:minutes] = parse_minutes(time_string) unless time_string == '+'
+          start_tracker = (time_string =~ /\+$/)
         end
         if project = find_or_create_project(@arguments.first)
           attributes[:project_id] = project.id
@@ -116,7 +116,12 @@ module MightyMite
     end
 
     def parse_minutes(string)
-      string.split(':').first.to_i*60 + string.split(':').last.to_i
+      string = string.sub(/\+$/, '')
+      if string =~ /^\d+:\d+$/
+        string.split(':').first.to_i*60 + string.split(':').last.to_i
+      elsif string =~ /^\d+(\.\d+)?:?$/
+        (string.to_f*60).to_i
+      end
     end
     
     def rebuild_completion_table

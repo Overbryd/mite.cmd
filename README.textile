@@ -47,7 +47,7 @@ You could use this command as an example (replace .bash_login with your bash con
 
     $ echo "complete -C \"mite auto-complete\" mite" >> ~/.bash_login
 
-h3. Controlling time entries:
+h3. Create new time entries with ease:
 
     $ mite "project name" [service name] [start time h:mm] [note]
     
@@ -56,6 +56,17 @@ h3. Controlling time entries:
     $ mite "project name" [start time h:mm] [note]
     
     $ mite [start time h:mm] [note]
+
+h4. The magic of the moment err... start time:
+
+Append a @+@ to the start time and it will start the tracker.
+
+The most convenient syntax to set the start time is @h:mm@. So it will accept all these kinds of values: @1:15@, @0:01@, @24:00@.
+
+Short-hand for hours:
+* @3+@ will set the start time to 3 hours, and start the tracker
+* @3.5@ will set it to 3 hours 30 minutes
+* @0.25+@ will make you look like a floating-point fetish, and start the tracker
 
 h4. Examples:
 
@@ -135,6 +146,10 @@ h3. More simple stuff:
     $ mite
 
 If there is a running timer, it will output it. Otherwise you should better not listen to it.
+
+    $ mite +
+
+Just create a new time entry and start tracking it.
 
     $ mite open
 
