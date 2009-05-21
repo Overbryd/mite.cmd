@@ -76,7 +76,7 @@ module MightyMite
         tell time_entry.inspect
         
       elsif @arguments.size == 0
-        tell Mite::Tracker.current ? Mite::Tracker.current : flirt
+        tell Mite::Tracker.current ? Mite::Tracker.current.inspect : flirt
       end
     end
     

@@ -29,9 +29,10 @@ describe MightyMite::Application, 'run' do
       @application.stub!(:flirt).and_return 'Your beautiful eyes touch my heart.'
     end
         
-    it "should tell the current tracker if there is one" do    
-      Mite::Tracker.stub!(:current).and_return :current_tracker
-      @application.should_receive(:tell).with :current_tracker
+    it "should tell the inspection of the current tracker if there is one" do    
+      tracker = stub('tracker', :inspect => 'I am the inspection of this tracker')
+      Mite::Tracker.stub!(:current).and_return tracker
+      @application.should_receive(:tell).with 'I am the inspection of this tracker'
       @application.run
     end
     
