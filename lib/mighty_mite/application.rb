@@ -41,7 +41,7 @@ module MightyMite
         total_revenue = Mite::TimeEntry.all(:params => {:at => @arguments.first, :user_id => 'current'}).each do |time_entry|
           tell time_entry.inspect
         end.map(&:revenue).compact.sum
-        tell ("%.2f $" % total_revenue).colorize(:lightgreen)
+        tell ("%.2f $" % (total_revenue/100)).colorize(:lightgreen)
         
       elsif ['stop', 'pause', 'lunch'].include? @arguments.first
         if current_tracker = (Mite::Tracker.current ? Mite::Tracker.current.stop : nil)

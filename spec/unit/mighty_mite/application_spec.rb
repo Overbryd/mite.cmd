@@ -262,7 +262,7 @@ describe MightyMite::Application, 'run' do
       end
       
       it "should tell #{@argument}'s revenue, nicely formatted and colorized in lightgreen" do
-        @application.should_receive(:tell).with("\e[1;32;49m2400.00 $\e[0m").at_least(:once)
+        @application.should_receive(:tell).with("\e[1;32;49m24.00 $\e[0m").at_least(:once)
         @application.run
       end
     end
