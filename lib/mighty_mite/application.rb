@@ -8,7 +8,7 @@ module MightyMite
     
     def initialize(arguments=[])
       @arguments = arguments
-      MightyMite.load_configuration unless arguments.first == 'configure'
+      MightyMite.load_configuration unless ['configure', 'help'].include?(arguments.first)
     end
     
     def run
