@@ -43,7 +43,7 @@ module MightyMite
         end.map(&:revenue).compact.sum
         tell ("%.2f $" % total_revenue).colorize(:lightgreen)
         
-      elsif ['stop', 'pause'].include? @arguments.first
+      elsif ['stop', 'pause', 'lunch'].include? @arguments.first
         if current_tracker = (Mite::Tracker.current ? Mite::Tracker.current.stop : nil)
           tell current_tracker.time_entry.inspect
         end
@@ -94,13 +94,13 @@ module MightyMite
     def find_or_create_project(name)
       project = Mite::Project.first(:params => {:name => name})
       return nil if name =~ TIME_FORMAT
-      project ? project : Mite::Project.create(:params => {:name => name})
+      project ? project : Mite::Project.create(:name => name)
     end
     
     def find_or_create_service(name)
       service = Mite::Service.first(:params => {:name => name})
       return nil if name =~ TIME_FORMAT
-      service ? service : Mite::Service.create(:params => {:name => name})
+      service ? service : Mite::Service.create(:name => name)
     end
 
     def parse_note(args, time_string)

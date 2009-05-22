@@ -417,8 +417,7 @@ describe MightyMite::Application, 'dynamic time entry creation' do
     it "should create a new project unless a project was found" do
       Mite::Project.stub!(:first).and_return nil
       @project.stub!(:id).and_return 1234
-      Mite::Project.stub!(:create).and_return @project
-      Mite::TimeEntry.should_receive(:create).with hash_including(:project_id => 1234)
+      Mite::Project.should_receive(:create).with(:name => 'I do not exist').and_return @project
       new_application(['I do not exist']).run
     end
     
@@ -445,17 +444,10 @@ describe MightyMite::Application, 'dynamic time entry creation' do
       new_application(['1', 'Read a book']).run
     end
     
-    it "should not add the service id to the attributes unless a service was found" do
-      Mite::Service.stub!(:first).and_return nil
-      Mite::TimeEntry.should_not_receive(:create).with hash_including(:service_id => 2)
-      new_application(['1', 'Write a book']).run
-    end
-    
     it "should create a new service unless a service was found" do
       Mite::Service.stub!(:first).and_return nil
       @service.stub!(:id).and_return 15
-      Mite::Service.stub!(:create).and_return @service
-      Mite::TimeEntry.should_receive(:create).with hash_including(:service_id => 15)
+      Mite::Service.should_receive(:create).with(:name => 'I do not exist yet').and_return @service
       new_application(['1', 'I do not exist yet']).run
     end
     
