@@ -75,7 +75,7 @@ describe MightyMite::Application, 'run' do
     
     it "should tell something nice if the bash completion setup fails" do
       @application.stub!(:try_to_setup_bash_completion).and_return false
-      @application.should_receive(:tell).with "Could't set up bash completion. I'm terribly frustrated. Maybe 'mite help' helps out."
+      @application.should_receive(:tell).with "Couldn't set up bash completion. I'm terribly frustrated. Maybe 'mite help' helps out."
       
       File.stub!(:open) # prevents the yml file to be written
       @application.run

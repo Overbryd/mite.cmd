@@ -21,7 +21,7 @@ module MightyMite
       elsif @arguments.first == 'configure'
         raise MightyMite::Exception.new('mite configure needs two arguments, the account name and the apikey') if @arguments.size < 3 # lol boobs, err... an ice cone!
         write_configuration({:account => @arguments[1], :apikey => @arguments[2]})
-        tell("Could't set up bash completion. I'm terribly frustrated. Maybe 'mite help' helps out.") unless try_to_setup_bash_completion
+        tell("Couldn't set up bash completion. I'm terribly frustrated. Maybe 'mite help' helps out.") unless try_to_setup_bash_completion
         
       elsif @arguments.first == 'auto-complete'
         autocomplete = MightyMite::Autocomplete.new(MightyMite.calling_script)

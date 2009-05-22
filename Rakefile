@@ -16,8 +16,17 @@ rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end
 
-require 'spec/rake/spectask'
 task :spec do
   sh "spec spec/unit/* --format specdoc --color"
 end
 task :default => :spec
+
+task :rcov do
+  sh "rake run_rcov && open coverage/index.html"
+end
+require 'spec/rake/spectask'
+Spec::Rake::SpecTask.new(:run_rcov) do |spec|
+  spec.libs << 'lib' << 'spec'
+  spec.pattern = 'spec/**/*_spec.rb'
+  spec.rcov = true
+end
