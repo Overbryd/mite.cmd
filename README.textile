@@ -43,13 +43,13 @@ You could use this command as an example (replace .bash_login with your bash con
 
 h3. Create new time entries with ease:
 
-  $ mite "project name" [service_name] [start_time] [note]
+  $ mite "project name" "service name" "start time" "note"
   
-  $ mite "project name" "service name" [note]
+  $ mite "project name" "service name" "note"
   
-  $ mite "project name" [start_time] [note]
+  $ mite "project name" "start time" "note"
   
-  $ mite [start_time] [note]
+  $ mite "start time" "note"
 
 h4. The magic of the moment err... start_time:
 
@@ -64,24 +64,22 @@ Short-hand for hours:
 
 h4. Examples:
 
-  $ mite "World Domination" "W.o.M.D" 72:01+ "This takes way too long... Maybe I should try another way."
+  $ mite "World Domination"
 
-This will set a time entry at 72:01 for the project "World Domination" with a note saying "This takes way too long... Maybe I should try another way.".
-The timer will start, because of the appended '+'. If there is a running timer, it will be stopped before.
+This will start a timer for the project World Domination.
 
-  $ mite HugEveryone 0:15 "Strange feelings..."
+  $ mite HugEveryone 0:15
 
-This will set a time entry at 0:15 for the project HugEveryone with a note saying "Strange feelings...".
-The timer will not start.
+The time entry created by this command, is made for the project HugEveryone and is set to 15 minutes. No tracker will be started.
   
-  $ mite HugEveryone Love "Everybody should be like me..."
+  $ mite HugEveryone Love 1+
 
-This will set a time entry that starts at 0:00 for the Project HugEveryone, doing the service "Love" with a note "Everybody should be like me...".
-If there is a running timer, it will be stopped before.
+Start a time entry for the project HugEveryone with the service Love and set it to 1 hour. The tracker will be started, because of the @start time@ argument was suffixed with a @+@.
 
 h4. Note:
 
 If a project or a service doesn't exist it will be created.
+You can omit one/some of the arguments, namely: @project name@, @service name@, @note@ or @start time@. But they have to be in order. So you can't set a @service name@ unless you specify a project. This will be fixed in future releases, till then, the arguments rely on their order.
 
 h3. Amazing auto-completion:
 
@@ -116,7 +114,7 @@ h4. Note: The first run without the cache might be a bit slow.
 
 h3. Controlling timers:
 
-		$ mite start
+	$ mite start
 
 This little cutey will start today's last time entry, if there is one.
 
