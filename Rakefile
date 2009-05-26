@@ -4,11 +4,11 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "mighty-mite"
+    gem.name = "mite.cmd"
     gem.executables = "mite"
     gem.summary = "A simple command line interface for basic mite tasks."
     gem.email = "l.rieder@gmail.com"
-    gem.homepage = "http://github.com/Overbryd/mighty-mite"
+    gem.homepage = "http://github.com/Overbryd/mite.cmd"
     gem.description = "A simple command line interface for mite, a sleek time tracking webapp."
     gem.authors = ["Lukas Rieder"]
   end

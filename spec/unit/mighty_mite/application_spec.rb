@@ -1,30 +1,30 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe MightyMite::Application, 'new' do
-  it "should load the configuration for MightyMite" do
-    MightyMite.should_receive(:load_configuration)
-    MightyMite::Application.new []
+describe MiteCmd::Application, 'new' do
+  it "should load the configuration for MiteCmd" do
+    MiteCmd.should_receive(:load_configuration)
+    MiteCmd::Application.new []
   end
   
   it "should not load the configuration if the first argument is 'configure'" do
-    MightyMite.should_not_receive(:load_configuration)
-    MightyMite::Application.new ['configure']
+    MiteCmd.should_not_receive(:load_configuration)
+    MiteCmd::Application.new ['configure']
   end
   
   it "should set arguments" do
-    MightyMite.stub!(:load_configuration)
-    MightyMite::Application.new(['1', '2', '3']).instance_variable_get('@arguments').should == ['1', '2', '3']
+    MiteCmd.stub!(:load_configuration)
+    MiteCmd::Application.new(['1', '2', '3']).instance_variable_get('@arguments').should == ['1', '2', '3']
   end
 end
 
-describe MightyMite::Application, 'run' do
+describe MiteCmd::Application, 'run' do
   before(:each) do
-    MightyMite.stub!(:load_configuration)
+    MiteCmd.stub!(:load_configuration)
   end
   
   describe 'no argument' do
     before(:each) do
-      @application = MightyMite::Application.new []
+      @application = MiteCmd::Application.new []
       @application.stub!(:say)
       @application.stub!(:flirt).and_return 'Your beautiful eyes touch my heart.'
     end
@@ -46,7 +46,7 @@ describe MightyMite::Application, 'run' do
   describe 'the open argument' do
     it "should try to open the account url or at least echo it" do
       Mite.stub!(:account_url).and_return 'http://demo.mite.yo.lk'
-      application = MightyMite::Application.new ['open']
+      application = MiteCmd::Application.new ['open']
       application.should_receive(:exec).with "open 'http://demo.mite.yo.lk' || echo 'http://demo.mite.yo.lk'"
       application.run
     end
@@ -54,15 +54,15 @@ describe MightyMite::Application, 'run' do
   
   describe 'the help argument' do
     it "should try to open the github repository of mighty mite or at least echo it" do
-      application = MightyMite::Application.new ['help']
-      application.should_receive(:exec).with "open 'http://github.com/Overbryd/mighty-mite' || echo 'http://github.com/Overbryd/mighty-mite'"
+      application = MiteCmd::Application.new ['help']
+      application.should_receive(:exec).with "open 'http://github.com/Overbryd/mite.cmd' || echo 'http://github.com/Overbryd/mite.cmd'"
       application.run
     end
   end
   
   describe 'the configure argument' do
     before(:each) do
-      @application = MightyMite::Application.new ['configure', 'demo', '123']
+      @application = MiteCmd::Application.new ['configure', 'demo', '123']
       @application.stub!(:tell)
     end
     
@@ -123,25 +123,25 @@ describe MightyMite::Application, 'run' do
     end
     
     it "should raise an error if one of the last two arguments is missing" do
-      application = MightyMite::Application.new ['configure', 'faildemo']
+      application = MiteCmd::Application.new ['configure', 'faildemo']
       lambda {
         application.run
-      }.should raise_error(MightyMite::Exception)
+      }.should raise_error(MiteCmd::Exception)
     end
   end
   
   describe 'the auto-complete argument' do
     before(:each) do
-      @application = MightyMite::Application.new ['auto-complete']
+      @application = MiteCmd::Application.new ['auto-complete']
       @application.stub!(:tell)
       
       @autocomplete = stub('autocomplete', :completion_table => {}, :completion_table= => nil, :suggestions => [])
-      MightyMite::Autocomplete.stub!(:new).and_return @autocomplete
+      MiteCmd::Autocomplete.stub!(:new).and_return @autocomplete
     end
     
-    it "should create a new instance of MightyMite::Autocomplete setting the calling_script" do
-      MightyMite.stub!(:calling_script).and_return '/usr/local/bin/mite'
-      MightyMite::Autocomplete.should_receive(:new).with '/usr/local/bin/mite'
+    it "should create a new instance of MiteCmd::Autocomplete setting the calling_script" do
+      MiteCmd.stub!(:calling_script).and_return '/usr/local/bin/mite'
+      MiteCmd::Autocomplete.should_receive(:new).with '/usr/local/bin/mite'
       @application.run
     end
 
@@ -154,7 +154,7 @@ describe MightyMite::Application, 'run' do
       @application.run
     end
     
-    it "should tell each suggestion from MightyMite::Autocomplete" do
+    it "should tell each suggestion from MiteCmd::Autocomplete" do
       File.stub!(:exist?).and_return true
       File.stub!(:read)
       Marshal.stub!(:load)
@@ -211,7 +211,7 @@ describe MightyMite::Application, 'run' do
 
   describe 'the rebuild-cache argument' do
     before(:each) do
-      @application = MightyMite::Application.new ['rebuild-cache']
+      @application = MiteCmd::Application.new ['rebuild-cache']
       @application.stub!(:tell)
     end
     
@@ -239,7 +239,7 @@ describe MightyMite::Application, 'run' do
   describe 'the simple report argument' do
     shared_examples_for 'a simple report' do
       before(:each) do
-        @application = MightyMite::Application.new [@argument]
+        @application = MiteCmd::Application.new [@argument]
         @application.stub!(:tell)
 
         @time_entry = stub('time_entry', :inspect => 'I am a time entry.', :revenue => 1200)
@@ -277,7 +277,7 @@ describe MightyMite::Application, 'run' do
   
   describe 'the stop argument' do
     before(:each) do
-      @application = MightyMite::Application.new ['stop']
+      @application = MiteCmd::Application.new ['stop']
       @application.stub!(:tell)
       
       time_entry = stub('time_entry', :inspect => 'hey there.')
@@ -304,7 +304,7 @@ describe MightyMite::Application, 'run' do
 
   describe 'the start argument' do
     before(:each) do
-      @application = MightyMite::Application.new ['start']
+      @application = MiteCmd::Application.new ['start']
       @application.stub!(:tell)
       
       @time_entry = stub('time_entry', :start_tracker => nil, :inspect => 'I was started.')
@@ -332,9 +332,9 @@ describe MightyMite::Application, 'run' do
 
 end
 
-describe MightyMite::Application, 'dynamic time entry creation' do
+describe MiteCmd::Application, 'dynamic time entry creation' do
   before(:each) do
-    MightyMite.stub!(:load_configuration)
+    MiteCmd.stub!(:load_configuration)
     
     @time_entry = stub('time_entry', :start_tracker => nil, :inspect => '')
     Mite::TimeEntry.stub!(:create).and_return @time_entry
@@ -345,7 +345,7 @@ describe MightyMite::Application, 'dynamic time entry creation' do
   end
   
   def new_application(args=[])
-    application = MightyMite::Application.new args
+    application = MiteCmd::Application.new args
     application.stub!(:tell)
     application
   end
@@ -490,12 +490,12 @@ describe MightyMite::Application, 'dynamic time entry creation' do
   end
 end
 
-describe MightyMite::Application, 'flirt' do
+describe MiteCmd::Application, 'flirt' do
   before(:each) do
-    MightyMite.stub!(:load_configuration)
+    MiteCmd.stub!(:load_configuration)
   end
   
   it "should return a random flirt as string" do
-    MightyMite::Application.new.flirt.should be_kind_of(String)
+    MiteCmd::Application.new.flirt.should be_kind_of(String)
   end
 end

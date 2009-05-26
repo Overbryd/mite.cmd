@@ -17,12 +17,12 @@ _|    _|    _|  _|      _|_|    _|_|_|
 A simple command line interface for basic mite tasks.
 
 * @mite.@ is an ingeniously sleek time tracking tool: http://mite.yo.lk
-* @mighty-mite@ is a command line interface for it: http://github.com/Overbryd/mighty-mite
+* @mite.cmd@ is a command line interface for it: http://github.com/Overbryd/mite.cmd
   It provides a system wide command called @mite@.
 
 h3. Installation instructions:
 
-    $ gem install Overbryd-mighty-mite
+    $ gem install Overbryd-mite.cmd
     
 I assume github is in your gem sources. You may need @active_support@ and @active_resource@ too.
 
@@ -159,7 +159,7 @@ h3. Feature Request? Problems? Found a bug? Your girlfriend broke up with you?
 
 Your problems are no longer "problems"! They are called issues now, and github has the solution.
 
-If you want to tell me an idea, I'll happily take care of them in the issues tracker: http://github.com/Overbryd/mighty-mite/issues
+If you want to tell me an idea, I'll happily take care of them in the issues tracker: http://github.com/Overbryd/mite.cmd/issues
 
 |\3. **All time Highscore of people who were involved** |
 | who? |\2. what? |

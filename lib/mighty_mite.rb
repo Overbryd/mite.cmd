@@ -9,7 +9,7 @@ require 'mite_ext'
 require 'mighty_mite/application'
 require 'mighty_mite/autocomplete'
 
-module MightyMite
+module MiteCmd
   BASH_COMPLETION = "complete -C \"mite auto-complete\" mite"
   
   CONFIG_FILE = File.expand_path '~/.mite.yml'

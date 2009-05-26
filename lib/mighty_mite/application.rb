@@ -1,4 +1,4 @@
-module MightyMite
+module MiteCmd
   class Application
     TIME_FORMAT = /^(\d+(\.\d+)?:?\+?)|(\d+:\d+\+?)|\+$/
     FLIRTS = [
@@ -8,7 +8,7 @@ module MightyMite
     
     def initialize(arguments=[])
       @arguments = arguments
-      MightyMite.load_configuration unless ['configure', 'help'].include?(arguments.first)
+      MiteCmd.load_configuration unless ['configure', 'help'].include?(arguments.first)
     end
     
     def run
@@ -16,15 +16,15 @@ module MightyMite
         open_or_echo Mite.account_url
         
       elsif @arguments.first == 'help'
-        open_or_echo 'http://github.com/Overbryd/mighty-mite'
+        open_or_echo 'http://github.com/Overbryd/mite.cmd'
         
       elsif @arguments.first == 'configure'
-        raise MightyMite::Exception.new('mite configure needs two arguments, the account name and the apikey') if @arguments.size < 3 # lol boobs, err... an ice cone!
+        raise MiteCmd::Exception.new('mite configure needs two arguments, the account name and the apikey') if @arguments.size < 3 # lol boobs, err... an ice cone!
         write_configuration({:account => @arguments[1], :apikey => @arguments[2]})
         tell("Couldn't set up bash completion. I'm terribly frustrated. Maybe 'mite help' helps out.") unless try_to_setup_bash_completion
         
       elsif @arguments.first == 'auto-complete'
-        autocomplete = MightyMite::Autocomplete.new(MightyMite.calling_script)
+        autocomplete = MiteCmd::Autocomplete.new(MiteCmd.calling_script)
         autocomplete.completion_table = if File.exist?(cache_file)
           Marshal.load File.read(cache_file)
         else
@@ -150,7 +150,7 @@ module MightyMite
     end
     
     def try_to_setup_bash_completion
-      bash_code = "\n\n#{MightyMite::BASH_COMPLETION}"
+      bash_code = "\n\n#{MiteCmd::BASH_COMPLETION}"
       
       ['~/.bash_completion', '~/.bash_profile', '~/.bash_login', '~/.bashrc'].each do |file|
         bash_config_file = File.expand_path file

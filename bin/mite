@@ -5,9 +5,9 @@ $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
 require 'mighty_mite'
 
 begin
-  MightyMite.calling_script = __FILE__
-  MightyMite.run(ARGV)
-rescue MightyMite::Exception => e
+  MiteCmd.calling_script = __FILE__
+  MiteCmd.run(ARGV)
+rescue MiteCmd::Exception => e
   puts "#{"Epic fail: #{e.message}".colorize(:color => :red, :background => :black)} Type `mite help` to get help."
   exit(1)
 end

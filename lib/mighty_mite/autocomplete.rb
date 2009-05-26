@@ -1,6 +1,6 @@
 require 'shellwords'
 
-module MightyMite
+module MiteCmd
   class Autocomplete
     include Shellwords
     

@@ -1,15 +1,15 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe MightyMite::Autocomplete, 'new' do
+describe MiteCmd::Autocomplete, 'new' do
   it "should set calling_script" do
-    autocomplete = MightyMite::Autocomplete.new('/usr/local/bin/mite')
+    autocomplete = MiteCmd::Autocomplete.new('/usr/local/bin/mite')
     autocomplete.instance_variable_get('@calling_script').should == '/usr/local/bin/mite'
   end
 end
 
-describe MightyMite::Autocomplete do
+describe MiteCmd::Autocomplete do
   before(:each) do
-    @autocomplete = MightyMite::Autocomplete.new '/usr/local/bin/test_command'
+    @autocomplete = MiteCmd::Autocomplete.new '/usr/local/bin/test_command'
     @autocomplete.completion_table = {
       0 => ['argument1', 'argument1a', 'argument1b', 'argument1c'],
       1 => ['Homer', 'Simpsons', 'Holy', 'Holy Moly', 'Holy Grail'],
