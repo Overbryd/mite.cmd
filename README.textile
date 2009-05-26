@@ -1,6 +1,6 @@
 <pre>
-             _ _                           _ 
-            (_) |                         | |
+       _ _               _ 
+      (_) |             | |
    _ __ ___  _| |_ ___   ___ _ __ ___   __| |
   | '_ ` _ \| | __/ _ \ / __| '_ ` _ \ / _` |
   | | | | | | | ||  __/| (__| | | | | | (_| |
@@ -15,8 +15,8 @@ A simple command line interface for basic mite tasks.
 
 h3. Installation instructions:
 
-    $ gem install Overbryd-mite.cmd
-    
+  $ gem install Overbryd-mite.cmd
+  
 I assume github is in your gem sources. You may need @active_support@ and @active_resource@ too.
 
 h3. After installation instructions:
@@ -24,7 +24,7 @@ h3. After installation instructions:
 You'll need to configure the client prior using it.
 To do this, you can just hammer into your console:
 
-    $ mite configure "Your Account Name" "Your API Key"
+  $ mite configure "Your Account Name" "Your API Key"
 
 It will then generate a yml file in ~/.mite.yml with your account information.
 
@@ -34,21 +34,21 @@ If your system doesn't support one of the files above, install the hook by yours
 In order to work as expected it needs bash to be configured for auto completion.
 This is actually quite easy, just append this line to your bash config file.
 
-    complete -C "mite auto-complete" mite
+  complete -C "mite auto-complete" mite
 
 You could use this command as an example (replace .bash_login with your bash configuration file):
 
-    $ echo "complete -C \"mite auto-complete\" mite" >> ~/.bash_login
+  $ echo "complete -C \"mite auto-complete\" mite" >> ~/.bash_login
 
 h3. Create new time entries with ease:
 
-    $ mite "project name" [service_name] [start_time] [note]
-    
-    $ mite "project name" "service name" [note]
-    
-    $ mite "project name" [start_time] [note]
-    
-    $ mite [start_time] [note]
+  $ mite "project name" [service_name] [start_time] [note]
+  
+  $ mite "project name" "service name" [note]
+  
+  $ mite "project name" [start_time] [note]
+  
+  $ mite [start_time] [note]
 
 h4. The magic of the moment err... start_time:
 
@@ -63,17 +63,17 @@ Short-hand for hours:
 
 h4. Examples:
 
-    $ mite "World Domination" "W.o.M.D" 72:01+ "This takes way too long... Maybe I should try another way."
+  $ mite "World Domination" "W.o.M.D" 72:01+ "This takes way too long... Maybe I should try another way."
 
 This will set a time entry at 72:01 for the project "World Domination" with a note saying "This takes way too long... Maybe I should try another way.".
 The timer will start, because of the appended '+'. If there is a running timer, it will be stopped before.
 
-    $ mite HugEveryone 0:15 "Strange feelings..."
+  $ mite HugEveryone 0:15 "Strange feelings..."
 
 This will set a time entry at 0:15 for the project HugEveryone with a note saying "Strange feelings...".
 The timer will not start.
-    
-    $ mite HugEveryone Love "Everybody should be like me..."
+  
+  $ mite HugEveryone Love "Everybody should be like me..."
 
 This will set a time entry that starts at 0:00 for the Project HugEveryone, doing the service "Love" with a note "Everybody should be like me...".
 If there is a running timer, it will be stopped before.
@@ -89,26 +89,26 @@ The client was designed to save keystrokes, so I've baked in a very handy auto-c
 
 Try this:
 
-      $ mite [tab]
+    $ mite [tab]
 
 It will try to auto-complete your projects.
-      
-      $ mite Project1 [tab]
+    
+    $ mite Project1 [tab]
 
 It will try to auto-complete your services.
-      
-      $ mite Project1 "System Administration" [tab]
+    
+    $ mite Project1 "System Administration" [tab]
 
 It will try to auto-complete common times!
-      
-      $ mite Project1 "System Administration" 0:48 [tab]
+    
+    $ mite Project1 "System Administration" 0:48 [tab]
 
 It will try to auto-complete your notes!
 
 h4. Amazingly fast auto-completion:
 
 The auto-completion feature creates a cache in ~/.mite.cache, if you want to rebuild this cache just hit:
-    
+  
 		$ mite rebuild-cache
 
 h4. Note: The first run without the cache might be a bit slow.
@@ -119,32 +119,32 @@ h3. Controlling timers:
 
 This little cutey will start today's last time entry, if there is one.
 
-    $ mite stop
+  $ mite stop
 
 This will just stop the current timer. (If you like you can use `mite pause` or `mite lunch` too)
 
 h3. Simple reports:
 
-    $ mite today
+  $ mite today
 
 This will generate a report of today's activity, summarizing your earnings at the bottom.
 
-    $ mite yesterday
+  $ mite yesterday
 
-This will generate a report of yesterday's activity, summarizing your earnings at the bottom.
+This will generate a report of yesterday's activity, summarizing your earnings and the total time at the bottom.
 Also works using @this_week@, @last_week@, @this_month@, @last_month@ as argument.
 
 h3. More simple stuff:
 
-    $ mite
+  $ mite
 
 If there is a running timer, it will output it. Otherwise you should better not listen to it.
 
-    $ mite +
+  $ mite +
 
 Just create a new time entry and start tracking it.
 
-    $ mite open
+  $ mite open
 
 Opens your mite account in a new browser window (Max OSX only) or prints the url to your account.
 
@@ -156,4 +156,4 @@ If you want to tell me an idea, I'll happily take care of them in the issues tra
 
 |\3. **All time Highscore of people who were involved** |
 | who? |\2. what? |
-| Sebastian Munz (yolk) | 10 issues | found a lot of bugs, did some real use testing. Really cool, thank you! |
+| Sebastian Munz (yolk) | 12 issues | found a lot of bugs, did some real use testing. Really cool, thank you! |
