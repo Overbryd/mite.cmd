@@ -2,7 +2,7 @@
 
 $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
 
-require 'mighty_mite'
+require 'mite_cmd'
 
 begin
   MiteCmd.calling_script = __FILE__
