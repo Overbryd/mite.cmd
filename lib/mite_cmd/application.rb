@@ -162,6 +162,8 @@ module MiteCmd
             f.puts bash_code
           end
           return true
+        else
+          return true
         end
       end
       return false

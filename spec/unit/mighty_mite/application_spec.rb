@@ -81,6 +81,14 @@ describe MiteCmd::Application, 'run' do
       @application.run
     end
     
+    it "should not tell something nice if bash completion is already set up or was ok" do
+      @application.stub!(:try_to_setup_bash_completion).and_return true
+      @application.should_not_receive(:tell)
+      
+      File.stub!(:open) # prevents the yml file to be written
+      @application.run      
+    end
+    
     describe 'and setup bash completion' do
       it "should append the bash completion call for mite to ~/.bash_completion if it exists and return true" do
         File.stub!(:expand_path).and_return '/tmp/.bash_completion'
