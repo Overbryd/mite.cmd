@@ -38,10 +38,12 @@ module MiteCmd
         tell 'The rebuilding of the cache has been done, Master. Your wish is my command.'
         
       elsif ['today', 'yesterday', 'this_week', 'last_week', 'this_month', 'last_month'].include? @arguments.first
+        total_minutes = 0
         total_revenue = Mite::TimeEntry.all(:params => {:at => @arguments.first, :user_id => 'current'}).each do |time_entry|
+          total_minutes += time_entry.minutes
           tell time_entry.inspect
         end.map(&:revenue).compact.sum
-        tell ("%.2f $" % (total_revenue/100)).colorize(:lightgreen)
+        tell ("%s:%.2d" % [total_minutes/60, total_minutes-total_minutes/60*60]).colorize(:lightred) + ", " + ("%.2f $" % (total_revenue/100)).colorize(:lightgreen)
         
       elsif ['stop', 'pause', 'lunch'].include? @arguments.first
         if current_tracker = (Mite::Tracker.current ? Mite::Tracker.current.stop : nil)

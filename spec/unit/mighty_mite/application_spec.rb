@@ -242,8 +242,8 @@ describe MiteCmd::Application, 'run' do
         @application = MiteCmd::Application.new [@argument]
         @application.stub!(:tell)
 
-        @time_entry = stub('time_entry', :inspect => 'I am a time entry.', :revenue => 1200)
-        @time_entry_with_nil_revenue = stub('time_entry_without_revenue', :inspect => 'I am a time entry.', :revenue => nil)
+        @time_entry = stub('time_entry', :inspect => 'I am a time entry.', :revenue => 1200, :minutes => 120)
+        @time_entry_with_nil_revenue = stub('time_entry_without_revenue', :inspect => 'I am a time entry.', :revenue => nil, :minutes => 18)
         @time_entry_with_nil_revenue.stub!(:revenue).and_return nil
         Mite::TimeEntry.stub!(:all).and_return [@time_entry, @time_entry, @time_entry_with_nil_revenue]
       end
@@ -262,7 +262,12 @@ describe MiteCmd::Application, 'run' do
       end
       
       it "should tell #{@argument}'s revenue, nicely formatted and colorized in lightgreen" do
-        @application.should_receive(:tell).with("\e[1;32;49m24.00 $\e[0m").at_least(:once)
+        @application.should_receive(:tell).with(/#{Regexp.escape "\e[1;32;49m24.00 $\e[0m"}/).at_least(:once)
+        @application.run
+      end
+      
+      it "should tell #{@argument}'s total time, nicely formatted and colorized in red" do
+        @application.should_receive(:tell).with(/#{Regexp.escape "\e[1;31;49m4:18\e[0m"}/).at_least(:once)
         @application.run
       end
     end
