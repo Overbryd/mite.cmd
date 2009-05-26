@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{mite.cmd}
-  s.version = "0.1.3"
+  s.version = "0.1.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Lukas Rieder"]
@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
      "lib/mite_cmd/autocomplete.rb",
      "lib/mite_ext.rb",
      "lib/string_ext.rb",
+     "mite.cmd.gemspec",
      "spec/spec_helper.rb",
      "spec/unit/mighty_mite/application_spec.rb",
      "spec/unit/mighty_mite/autocomplete_spec.rb",
