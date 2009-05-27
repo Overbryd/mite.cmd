@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{mite.cmd}
-  s.version = "0.1.4"
+  s.version = "0.1.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Lukas Rieder"]
-  s.date = %q{2009-05-26}
+  s.date = %q{2009-05-27}
   s.default_executable = %q{mite}
   s.description = %q{A simple command line interface for mite, a sleek time tracking webapp.}
   s.email = %q{l.rieder@gmail.com}
