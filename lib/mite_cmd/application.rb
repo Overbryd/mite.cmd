@@ -61,7 +61,7 @@ module MiteCmd
       elsif (1..4).include?(@arguments.size)
         attributes = {}
         if time_string = @arguments.select { |a| a =~ TIME_FORMAT }.first
-          attributes[:minutes] = parse_minutes(time_string) unless time_string == '+'
+          attributes[:minutes] = parse_minutes(time_string)
           start_tracker = (time_string =~ /\+$/)
         end
         if project = find_or_create_project(@arguments.first)
@@ -119,7 +119,10 @@ module MiteCmd
 
     def parse_minutes(string)
       string = string.sub(/\+$/, '')
-      if string =~ /^\d+:\d+$/
+      
+      if string.blank?
+        0
+      elsif string =~ /^\d+:\d+$/
         string.split(':').first.to_i*60 + string.split(':').last.to_i
       elsif string =~ /^\d+(\.\d+)?:?$/
         (string.to_f*60).to_i

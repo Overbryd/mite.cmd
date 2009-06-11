@@ -90,6 +90,13 @@ describe MiteCmd::Autocomplete do
       @autocomplete.suggestions.should == ['Holy', 'Holy Moly', 'Holy Grail']
     end
     
+    it "should ignore the case of the typed argument" do
+                                                  #vvvv
+      ENV['COMP_LINE'] = "./test_command argument1 holy \"I love spaces\""
+      ENV['COMP_POINT'] = '27'
+      @autocomplete.suggestions.should == ['Holy', 'Holy Moly', 'Holy Grail']
+    end
+    
     it "should return an empty array if the current argument index is out of range" do
       @autocomplete.stub!(:current_argument_index).and_return 50
       @autocomplete.suggestions.should == []

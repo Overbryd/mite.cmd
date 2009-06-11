@@ -373,7 +373,7 @@ describe MiteCmd::Application, 'dynamic time entry creation' do
   describe 'the + argument' do
     it "should create and start a new time entry" do
       time_entry = stub('time_entry')
-      Mite::TimeEntry.should_receive(:create).and_return time_entry
+      Mite::TimeEntry.should_receive(:create).with(:minutes => 0).and_return time_entry
       time_entry.should_receive :start_tracker
       new_application(['+']).run
     end
@@ -396,8 +396,8 @@ describe MiteCmd::Application, 'dynamic time entry creation' do
       new_application.send(:parse_minutes, '0.5:').should == 30
     end
     
-    it "should parse minutes as nil out of +" do
-      new_application.send(:parse_minutes, '+').should == nil
+    it "should parse minutes as 0 out of +" do
+      new_application.send(:parse_minutes, '+').should == 0
     end
     
     it "should add the parsed minutes to the attributes" do

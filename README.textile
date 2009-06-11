@@ -84,7 +84,7 @@ You can omit one/some of the arguments, namely: @project name@, @service name@, 
 h3. Amazing auto-completion:
 
 This is very nifty. (But maybe you should read the After Installation Instructions before.)
-The client was designed to save keystrokes, so I've baked in a very handy auto-completion feature.
+The client was designed to save keystrokes, so I've baked in a very handy auto-completion feature. It even ignores the typed case.
 
 Try this:
 
