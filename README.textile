@@ -157,4 +157,4 @@ If you want to tell me an idea, I'll happily take care of them in the issues tra
 | who? |\2. what? |
 | Sebastian Munz (yolk) | 12 issues | found a lot of bugs, did some real use testing. Really cool, thank you! |
 | Julia Soergel (juliasoergel) | 2 issues | found a bug and `I like your hairstyle!´ |
-| burmi | 2 issues | found two bugs and mentioned a security issue which is now fixed. Yea baby! |
+|  Michael Bumann (burmi) | 2 issues | found two bugs and mentioned a security issue which is now fixed. Yea baby! |
