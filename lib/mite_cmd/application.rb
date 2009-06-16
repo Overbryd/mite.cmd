@@ -1,3 +1,5 @@
+require 'ftools'
+
 module MiteCmd
   class Application
     TIME_FORMAT = /^(\d+(\.\d+)?:?\+?)|(\d+:\d+\+?)|\+$/
@@ -137,6 +139,7 @@ module MiteCmd
         3 => Mite::TimeEntry.all.map(&:note).compact
       }
       File.open(cache_file, 'w') { |f| Marshal.dump(completion_table, f) }
+      File.chmod(0600, cache_file)
       completion_table
     end
     
@@ -152,6 +155,7 @@ module MiteCmd
       File.open(File.expand_path('~/.mite.yml'), 'w') do |f|
         YAML.dump(config, f)
       end
+      File.chmod(0600, File.expand_path('~/.mite.yml'))
     end
     
     def try_to_setup_bash_completion
@@ -159,7 +163,7 @@ module MiteCmd
       
       ['~/.bash_completion', '~/.bash_profile', '~/.bash_login', '~/.bashrc'].each do |file|
         bash_config_file = File.expand_path file
-        next unless File.exist?(bash_config_file)
+        next unless File.file?(bash_config_file)
         unless File.read(bash_config_file) =~ /#{bash_code}/
           File.open(bash_config_file, 'a') do |f|
             f.puts bash_code

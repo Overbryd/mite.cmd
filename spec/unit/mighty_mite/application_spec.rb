@@ -64,6 +64,7 @@ describe MiteCmd::Application, 'run' do
     before(:each) do
       @application = MiteCmd::Application.new ['configure', 'demo', '123']
       @application.stub!(:tell)
+      File.stub!(:chmod)
     end
     
     it "should generate a yaml formatted file in ~/.mite.yml with the account and the apikey" do
@@ -89,10 +90,17 @@ describe MiteCmd::Application, 'run' do
       @application.run      
     end
     
+    it "should chmod the configuration file to 0600" do
+      File.stub!(:expand_path).and_return '/tmp/.mite.yml'
+      File.stub!(:file?).and_return true
+      File.should_receive(:chmod).with(0600, '/tmp/.mite.yml')
+      @application.run
+    end
+        
     describe 'and setup bash completion' do
-      it "should append the bash completion call for mite to ~/.bash_completion if it exists and return true" do
+      it "should append the bash completion call for mite to ~/.bash_completion if it is a regular file and exists and return true" do
         File.stub!(:expand_path).and_return '/tmp/.bash_completion'
-        File.should_receive(:exist?).with('/tmp/.bash_completion').and_return true
+        File.should_receive(:file?).with('/tmp/.bash_completion').and_return true
         file_handle = stub('file_handle')
         File.should_receive(:open).with('/tmp/.bash_completion', 'a').and_yield file_handle
         file_handle.should_receive(:puts).with("\n\ncomplete -C \"mite auto-complete\" mite")
@@ -108,12 +116,12 @@ describe MiteCmd::Application, 'run' do
           Regexp.new(files_regexp)
         ).exactly(files.size).times
         
-        File.stub!(:exist?).and_return false
+        File.stub!(:file?).and_return false
         @application.send :try_to_setup_bash_completion
       end
       
       it "should not open a file handle if the file does not exist" do
-        File.stub!(:exist?).and_return false
+        File.stub!(:file?).and_return false
         File.should_not_receive(:open)
         @application.send :try_to_setup_bash_completion
       end
@@ -125,9 +133,9 @@ describe MiteCmd::Application, 'run' do
       end
       
       it "should return false if the bash completion could not be set up" do
-        File.stub!(:exist?).and_return false
+        File.stub!(:file?).and_return false
         @application.send(:try_to_setup_bash_completion).should == false
-      end
+      end      
     end
     
     it "should raise an error if one of the last two arguments is missing" do
@@ -189,6 +197,7 @@ describe MiteCmd::Application, 'run' do
         Mite::TimeEntry.stub!(:all).and_return [stub('time entry', :note => 'shit 02:13 is really late')]
         
         File.stub!(:open)
+        File.stub!(:chmod)
         Marshal.stub!(:dump)
         
         @completion_table = {
@@ -221,6 +230,8 @@ describe MiteCmd::Application, 'run' do
     before(:each) do
       @application = MiteCmd::Application.new ['rebuild-cache']
       @application.stub!(:tell)
+      File.stub!(:delete)
+      File.stub!(:chmod)
     end
     
     it "should delete the file at ~/.mite.cache if it exists" do
@@ -238,6 +249,13 @@ describe MiteCmd::Application, 'run' do
     
     it "should tell something nice if the cache has been rebuild" do
       @application.should_receive(:tell).with 'The rebuilding of the cache has been done, Master. Your wish is my command.'
+      @application.run
+    end
+    
+    it "should chmod the cache file to 0600" do
+      File.stub!(:expand_path).and_return '/tmp/.mite.cache'
+      File.stub!(:exist?).and_return true
+      File.should_receive(:chmod).with(0600, '/tmp/.mite.cache')
       @application.run
     end
     
