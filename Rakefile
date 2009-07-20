@@ -17,7 +17,8 @@ rescue LoadError
 end
 
 task :spec do
-  sh "spec spec/unit/* --format specdoc --color"
+  spec_files = Dir.glob('spec/**/*_spec.rb').join(' ')
+  sh "spec #{spec_files} --format specdoc --color"
 end
 task :default => :spec
 

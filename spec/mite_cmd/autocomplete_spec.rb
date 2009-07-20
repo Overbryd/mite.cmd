@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe MiteCmd::Autocomplete, 'new' do
   it "should set calling_script" do
@@ -91,8 +91,8 @@ describe MiteCmd::Autocomplete do
     end
     
     it "should ignore the case of the typed argument" do
-                                                  #vvvv
-      ENV['COMP_LINE'] = "./test_command argument1 holy \"I love spaces\""
+                                      # COMP_POINT 27 v
+      ENV['COMP_LINE'] = "/.test_command argument1 holy \"I love spaces\""
       ENV['COMP_POINT'] = '27'
       @autocomplete.suggestions.should == ['Holy', 'Holy Moly', 'Holy Grail']
     end
@@ -101,7 +101,6 @@ describe MiteCmd::Autocomplete do
       @autocomplete.stub!(:current_argument_index).and_return 50
       @autocomplete.suggestions.should == []
     end
-    
   end
   
 end

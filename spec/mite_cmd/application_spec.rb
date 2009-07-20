@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../spec_helper'
+require File.dirname(__FILE__) + '/../spec_helper'
 
 describe MiteCmd::Application, 'new' do
   it "should load the configuration for MiteCmd" do
