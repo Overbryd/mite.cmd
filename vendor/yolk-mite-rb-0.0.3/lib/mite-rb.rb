@@ -1,8 +1,8 @@
 $:.unshift(File.dirname(__FILE__))
 
 require 'rubygems'
-require 'activesupport'
-require 'activeresource'
+require 'active_support'
+require 'active_resource'
 
 # The official ruby library for interacting with the RESTful API of mite,
 # a sleek time tracking webapp.
