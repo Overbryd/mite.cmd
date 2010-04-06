@@ -59,7 +59,15 @@ module MiteCmd
         else
           tell "Oh my dear! I tried hard, but I could'nt find any time entry for today."
         end
-      
+
+      elsif @arguments.first == 'note'
+        if time_entry = Mite::TimeEntry.first(:params => {:at => 'today'})
+          @arguments.shift
+          time_entry.note = [time_entry.note, *@arguments].compact.join(' ')
+          time_entry.save
+          tell time_entry.inspect
+        end
+
       elsif (1..4).include?(@arguments.size)
         attributes = {}
         if time_string = @arguments.select { |a| a =~ TIME_FORMAT }.first
