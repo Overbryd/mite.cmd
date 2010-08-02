@@ -361,6 +361,38 @@ describe MiteCmd::Application, 'run' do
     end
   end
 
+  describe 'the note argument' do
+    before(:each) do
+      @application = MiteCmd::Application.new ['note', 'Current work comment']
+      @application.stub!(:tell)
+
+      @time_entry = stub('time_entry', :note => nil, :note= => nil, :save => true, :inspect => 'I should be commented.')
+      Mite::TimeEntry.stub!(:first).and_return @time_entry
+    end
+
+    it "should call .note= on the last time entry of today" do
+      Mite::TimeEntry.should_receive(:first).with(:params => {:at => 'today'})
+      @time_entry.should_receive(:note=).with('Current work comment')
+      @application.run
+    end
+
+    it "should save the entry" do
+      @time_entry.should_receive(:save)
+      @application.run
+    end
+
+    it "should append to an existing note with a space in between" do
+      @time_entry.should_receive(:note).and_return('Existing comment.')
+      @time_entry.should_receive(:note=).with('Existing comment. Current work comment')
+      @application.run
+    end
+
+    it "should tell the inspection of the tracker's time entry if it has been stopped" do
+      @application.should_receive(:tell).with 'I should be commented.'
+      @application.run
+    end
+  end
+
 end
 
 describe MiteCmd::Application, 'dynamic time entry creation' do
