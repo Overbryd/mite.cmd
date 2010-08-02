@@ -22,6 +22,8 @@ I assume github is in your gem sources. You may need @activesupport@ and @active
 
   $ gem install activesupport activeresource
 
+Note: On debian/ubuntu libopenssl-ruby is required.
+
 h3. After installation instructions:
 
 You'll need to configure the client prior using it.
