@@ -1,4 +1,8 @@
-require 'ftools'
+if RUBY_VERSION >= '1.9'
+  require 'fileutils'
+else
+  require 'ftools'
+end
 
 module MiteCmd
   class Application
