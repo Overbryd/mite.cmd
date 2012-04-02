@@ -34,20 +34,7 @@ Gem::Specification.new do |s|
      "spec/mite_cmd_spec.rb",
      "spec/mite_ext_spec.rb",
      "spec/spec_helper.rb",
-     "spec/string_ext_spec.rb",
-     "vendor/yolk-mite-rb-0.0.3/CHANGES.txt",
-     "vendor/yolk-mite-rb-0.0.3/LICENSE",
-     "vendor/yolk-mite-rb-0.0.3/README.textile",
-     "vendor/yolk-mite-rb-0.0.3/Rakefile",
-     "vendor/yolk-mite-rb-0.0.3/VERSION.yml",
-     "vendor/yolk-mite-rb-0.0.3/lib/mite-rb.rb",
-     "vendor/yolk-mite-rb-0.0.3/lib/mite/customer.rb",
-     "vendor/yolk-mite-rb-0.0.3/lib/mite/project.rb",
-     "vendor/yolk-mite-rb-0.0.3/lib/mite/service.rb",
-     "vendor/yolk-mite-rb-0.0.3/lib/mite/time_entry.rb",
-     "vendor/yolk-mite-rb-0.0.3/lib/mite/time_entry_group.rb",
-     "vendor/yolk-mite-rb-0.0.3/lib/mite/tracker.rb",
-     "vendor/yolk-mite-rb-0.0.3/lib/mite/user.rb"
+     "spec/string_ext_spec.rb"
   ]
   s.homepage = %q{http://github.com/Overbryd/mite.cmd}
   s.rdoc_options = ["--charset=UTF-8"]
@@ -65,6 +52,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'activeresource'
   s.add_runtime_dependency 'activesupport'
+  s.add_runtime_dependency 'mite-rb', '0.3.0'
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
