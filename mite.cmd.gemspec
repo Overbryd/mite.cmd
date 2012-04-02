@@ -52,7 +52,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'activeresource'
   s.add_runtime_dependency 'activesupport'
-  s.add_runtime_dependency 'mite-rb', '0.3.0'
+  s.add_runtime_dependency 'mite-rb', '0.4.2'
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION

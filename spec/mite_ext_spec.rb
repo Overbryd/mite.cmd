@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 describe Mite, 'account_url' do
   it "should return the url for this account" do
     Mite.account = 'demo'
-    Mite.account_url.should == 'http://demo.mite.yo.lk'
+    Mite.account_url.should == 'https://demo.mite.yo.lk'
   end
 end
 
