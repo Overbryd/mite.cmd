@@ -63,6 +63,9 @@ Gem::Specification.new do |s|
      "spec/string_ext_spec.rb"
   ]
 
+  s.add_runtime_dependency 'activeresource'
+  s.add_runtime_dependency 'activesupport'
+
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
