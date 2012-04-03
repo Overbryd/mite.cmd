@@ -1,6 +1,8 @@
 source :rubygems
 
-gemspec
+gem 'activeresource'
+gem 'activesupport'
+gem 'mite-rb', '~> 0.4.3'
 
 group :development, :test do
   gem 'rake'
