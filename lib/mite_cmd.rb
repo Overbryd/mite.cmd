@@ -2,11 +2,7 @@ require 'yaml'
 Dir[File.join(File.dirname(__FILE__), *%w[.. vendor * lib])].each do |path|
   $LOAD_PATH.unshift path
 end
-
-_original_verbosity = $VERBOSE
-$VERBOSE = nil
 require 'mite-rb'
-$VERBOSE = _original_verbosity
 
 require 'string_ext'
 require 'mite_ext'
