@@ -2,7 +2,7 @@ source :rubygems
 
 gem 'activeresource'
 gem 'activesupport'
-gem 'mite-rb', '~> 0.4.3'
+gem 'mite-rb', '~> 0.4'
 
 group :development, :test do
   gem 'rake'
