@@ -4,3 +4,4 @@ doc
 coverage
 .DS_Store
 Gemfile.lock
+.rbenv-*
