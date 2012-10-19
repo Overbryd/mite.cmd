@@ -16,7 +16,7 @@ A simple command line interface for basic mite tasks.
 
 h3. Installation instructions:
 
-  $ gem install Overbryd-mite.cmd
+  $ gem install mite.cmd
   
 I assume github is in your gem sources. You may need @activesupport@ and @activeresource@ too.
 
