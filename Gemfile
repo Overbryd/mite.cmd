@@ -1,7 +1,7 @@
 source :rubygems
 
-gem 'activeresource', '~> 2.3'
-gem 'activesupport', '~> 2.3'
+gem 'activeresource', '~> 3.1'
+gem 'activesupport', '~> 3.1'
 gem 'mite-rb', '~> 0.4'
 
 group :development, :test do
