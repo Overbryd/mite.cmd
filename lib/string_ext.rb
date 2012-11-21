@@ -11,7 +11,7 @@ String.class_eval do
     (self.scan(/"/).size % 2) != 0 ? self+q : self
   end
   
-  BASH_COLOR = {
+  String::BASH_COLOR = {
     :black => 30,
     :red => 31,
     :green => 32,
@@ -22,7 +22,7 @@ String.class_eval do
     :white => 37,
     :default => 39
   }
-  BASH_EFFECT = {
+  String::BASH_EFFECT = {
     :none => 0,
     :bright => 1,
     :underline => 4,
@@ -41,9 +41,9 @@ String.class_eval do
     options[:background] = :default unless options[:background]
     options[:effect] = :none unless options[:effect]
     
-    effect_code = "#{BASH_EFFECT[options[:effect]]}"
-    background_code = "#{BASH_COLOR[options[:background]]+10}m"
-    color_code = "#{BASH_COLOR[options[:color]]}"
+    effect_code = "#{String::BASH_EFFECT[options[:effect]]}"
+    background_code = "#{String::BASH_COLOR[options[:background]]+10}m"
+    color_code = "#{String::BASH_COLOR[options[:color]]}"
     reset_code = "\e[0m"
     "\e[#{effect_code};#{color_code};#{background_code}#{self}#{reset_code}"
   end
