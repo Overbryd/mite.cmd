@@ -45,9 +45,9 @@ describe MiteCmd::Application, 'run' do
   
   describe 'the open argument' do
     it "should try to open the account url or at least echo it" do
-      Mite.stub!(:account_url).and_return 'http://demo.mite.yo.lk'
+      Mite.stub!(:account_url).and_return 'https://demo.mite.yo.lk'
       application = MiteCmd::Application.new ['open']
-      application.should_receive(:exec).with "open 'http://demo.mite.yo.lk' || echo 'http://demo.mite.yo.lk'"
+      application.should_receive(:exec).with "open 'https://demo.mite.yo.lk' || echo 'https://demo.mite.yo.lk'"
       application.run
     end
   end

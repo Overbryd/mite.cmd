@@ -1,6 +1,6 @@
 Mite.class_eval do
   def self.account_url
-    host_format % [protocol, domain_format % account, (port.blank? ? '' : ":#{port}")]
+    host_format % ['https', domain_format % account, (port.blank? ? '' : ":#{port}")]
   end
 end
 
